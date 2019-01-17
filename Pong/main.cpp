@@ -21,6 +21,14 @@ RectangleShape paddles[2];
 Vector2f ballVelocity;
 bool server = false;
 
+void reset()
+{
+	// reset Ball Position
+	ball.setPosition(400, 300);
+	//if server true 100, if server false -100
+	ballVelocity = { (server ? 100.0f : -100.0f), 60.0f };
+}
+
 void Load() 
 {
 	// Set size and origin of paddles
@@ -117,7 +125,20 @@ void Update(RenderWindow &window)
 		) 
 	{
 		// bounce off left paddle
-	
+		reset();
+	}
+	else if (
+		//ball is inline or behind paddle
+		bx > paddleSize.x &&
+		//AND ball is below top edge of paddle
+		by > paddles[1].getPosition().y - (paddleSize.y * 0.5) &&
+		//AND ball is above bottom edge of paddle
+		by < paddles[1].getPosition().y + (paddleSize.y * 0.5)
+		) 
+	{
+		//bounce off riught paddle
+		//reset();
+
 	}
 
 
@@ -133,13 +154,7 @@ void Render(RenderWindow &window)
 	window.draw(ball);
 }
 
-void reset() 
-{
-	// reset Ball Position
-	ball.setPosition(400, 300);
-	//if server true 100, if server false -100
-	ballVelocity = { (server ? 100.0f : -100.0f), 60.0f };
-}
+
 
 int main() 
 {
