@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include "main.h"
 
 using namespace sf;
 using namespace std;
@@ -14,6 +15,8 @@ const float ballRadius = 10.f;
 const int gameWidth = 800;
 const int gameHeight = 600;
 const float paddleSpeed = 400.f;
+
+int aiMode = 0;
 
 CircleShape ball;
 RectangleShape paddles[2];
@@ -51,7 +54,60 @@ void Load()
 	reset();
 }
 
-void Update(RenderWindow &window) 
+void Player1(float dt)
+{
+	// handle paddle movement
+	float direction = 0.0f;
+	//left paddle
+	if (Keyboard::isKeyPressed(controls[0]))
+	{
+		direction--;
+	}
+	if (Keyboard::isKeyPressed(controls[1]))
+	{
+		direction++;
+	}
+	paddles[0].move(0, direction * paddleSpeed * dt);
+}
+
+void Player2(float dt)
+{
+	float direction = 0.0f;
+
+	//right paddle
+	if (Keyboard::isKeyPressed(controls[2]))
+	{
+		direction--;
+	}
+	if (Keyboard::isKeyPressed(controls[3]))
+	{
+		direction++;
+	}
+	paddles[1].move(0, direction * paddleSpeed * dt);
+}
+
+void ValidateMoves()
+{
+	for (auto &p : paddles)
+	{
+		if (p.getPosition().y + (paddleSize.y * 0.5f) > gameHeight)
+		{
+			p.setPosition(p.getPosition().x, gameHeight - paddleSize.y * 0.5f);
+			//p.setFillColor(sf::Color::Green);
+		}
+		else if (p.getPosition().y - (paddleSize.y * 0.5f) < 0)
+		{
+			p.setPosition(p.getPosition().x, 0 + paddleSize.y * 0.5f);
+			//p.setFillColor(sf::Color::Red);
+		}
+		else
+		{
+			//p.setFillColor(sf::Color::White);
+		}
+	}
+}
+
+void Update(RenderWindow &window)
 {
 	// Reset clock, recalculate deltatime
 	static Clock clock;
@@ -71,47 +127,21 @@ void Update(RenderWindow &window)
 		window.close();
 	}
 
-	// handle paddle movement
-	float direction[2] = {0.0f, 0.0f};
-	//left paddle
-	if (Keyboard::isKeyPressed(controls[0])) 
+	
+	if (aiMode == 0)
 	{
-		direction[0]--;
+		Player1(dt);
+		Player2(dt);
 	}
-	if (Keyboard::isKeyPressed(controls[1])) 
+	else if (aiMode == 1)
 	{
-		direction[0]++;
+		Player1(dt);
+		AI1(dt);
 	}
-	paddles[0].move(0, direction[0] * paddleSpeed * dt);
-	//right paddle
-	if (Keyboard::isKeyPressed(controls[2])) 
-	{
-		direction[1]--;
-	}
-	if (Keyboard::isKeyPressed(controls[3])) 
-	{
-		direction[1]++;
-	}
-	paddles[1].move(0, direction[1] * paddleSpeed * dt);
+	
 
 	//validate paddle moves
-	for (auto &p : paddles)
-	{
-		if (p.getPosition().y + (paddleSize.y * 0.5f) > gameHeight)
-		{
-			p.setPosition(p.getPosition().x, gameHeight - paddleSize.y * 0.5f);
-			//p.setFillColor(sf::Color::Green);
-		}
-		else if (p.getPosition().y - (paddleSize.y * 0.5f) < 0)
-		{
-			p.setPosition(p.getPosition().x, 0 + paddleSize.y * 0.5f);
-			//p.setFillColor(sf::Color::Red);
-		}
-		else
-		{
-			//p.setFillColor(sf::Color::White);
-		}
-	}
+	ValidateMoves();
 
 	// check ball collision
 	const float bx = ball.getPosition().x;
