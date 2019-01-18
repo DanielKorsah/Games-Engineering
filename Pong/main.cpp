@@ -36,6 +36,11 @@ void Load()
 		p.setSize(paddleSize - Vector2f(3, 3));
 		p.setOrigin(paddleSize / 2.f);
 	}
+
+	//set player colours
+	paddles[0].setFillColor(sf::Color::Red);
+	paddles[1].setFillColor(sf::Color::Blue);
+
 	// Set size and origin of ball
 	ball.setRadius(ballRadius - 3);
 	ball.setOrigin(ballRadius / 2, ballRadius / 2);
@@ -101,7 +106,6 @@ void Update(RenderWindow &window)
 		{
 			p.setPosition(p.getPosition().x, 0 + paddleSize.y * 0.5f);
 			//p.setFillColor(sf::Color::Red);
-
 		}
 		else
 		{
