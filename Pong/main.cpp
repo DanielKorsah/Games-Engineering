@@ -16,7 +16,7 @@ const int gameWidth = 800;
 const int gameHeight = 600;
 const float paddleSpeed = 400.f;
 
-int aiMode = 0;
+int aiMode = 1;
 
 CircleShape ball;
 RectangleShape paddles[2];
@@ -86,6 +86,22 @@ void Player2(float dt)
 	paddles[1].move(0, direction * paddleSpeed * dt);
 }
 
+void AI(sf::RectangleShape &paddle, float dt)
+{
+	float direction = 0.0f;
+
+	if (ball.getPosition().y < paddle.getPosition().y)
+	{
+		direction--;
+	}
+
+	if (ball.getPosition().y > paddle.getPosition().y)
+	{
+		direction++;
+	}
+	paddle.move(0, direction * paddleSpeed * dt);
+}
+
 void ValidateMoves()
 {
 	for (auto &p : paddles)
@@ -136,7 +152,12 @@ void Update(RenderWindow &window)
 	else if (aiMode == 1)
 	{
 		Player1(dt);
-		AI1(dt);
+		AI(paddles[1], dt);
+	}
+	else if (aiMode == 2)
+	{
+		AI(paddles[0], dt);
+		AI(paddles[1], dt);
 	}
 	
 
