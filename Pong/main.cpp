@@ -16,7 +16,7 @@ const int gameWidth = 800;
 const int gameHeight = 600;
 const float paddleSpeed = 400.f;
 
-int aiMode = 0;
+int aiMode = 2;
 
 //scoreboard varibales
 sf::Font font;
@@ -30,7 +30,7 @@ RectangleShape paddles[2];
 Vector2f ballVelocity;
 bool server = true;
 
-void reset(Vector2f location)
+void reset(Vector2f location, sf::RenderWindow &w)
 {
 	// reset Ball Position
 	ball.setPosition(location);
@@ -40,16 +40,18 @@ void reset(Vector2f location)
 	// Update Score Text
 	text.setString(std::to_string(score1) + " : " + std::to_string(score2));
 	// Keep Score Text Centered
-	text.setPosition((gameWidth * .5f) - (text.getLocalBounds().width * .5f), 0);
+	text.setPosition((gameWidth * .5f) - (text.getLocalBounds().width * .5f), gameHeight - 30);
+
+	text.setColor(sf::Color::White);
+	text.setFillColor(sf::Color::White);
+
+	w.draw(text);
 }
 
-void Load() 
+void Load(sf::RenderWindow &w) 
 {
-
-	
-
 	// Load font-face from res dir
-	font.loadFromFile("res/DJB_Get_Digital.ttf");
+	font.loadFromFile("res/RobotoMono-Regular.ttf");
 	// Set text element to use font
 	text.setFont(font);
 	// set the character size to 24 pixels
@@ -72,7 +74,7 @@ void Load()
 	paddles[0].setPosition(10 + paddleSize.x / 2, gameHeight / 2);
 	paddles[1].setPosition(770 + paddleSize.x / 2, gameHeight / 2);
 	
-	reset({400, 300});
+	reset({400, 300}, w);
 }
 
 void Player1(float dt)
@@ -206,12 +208,12 @@ void Update(RenderWindow &window)
 	else if (bx > gameWidth) 
 	{
 		// right wall
-		reset({(paddles[0].getPosition().x - offset.x), (paddles[0].getPosition().y)});
+		reset({(paddles[0].getPosition().x - offset.x), (paddles[0].getPosition().y)}, window);
 	}
 	else if (bx < 0)
 	{
 		// left wall
-		reset({ (paddles[1].getPosition().x + offset.x), (paddles[1].getPosition().y) });
+		reset({ (paddles[1].getPosition().x + offset.x), (paddles[1].getPosition().y)}, window);
 	}
 	else if (
 		//ball is inline or behind paddle
@@ -261,7 +263,7 @@ void Render(RenderWindow &window)
 int main() 
 {
 	RenderWindow window(VideoMode(gameWidth, gameHeight), "PONG");
-	Load();
+	Load(window);
 	while (window.isOpen()) 
 	{
 		window.clear();
