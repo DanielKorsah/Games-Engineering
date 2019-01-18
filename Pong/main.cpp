@@ -16,7 +16,13 @@ const int gameWidth = 800;
 const int gameHeight = 600;
 const float paddleSpeed = 400.f;
 
-int aiMode = 1;
+int aiMode = 0;
+
+//scoreboard varibales
+sf::Font font;
+sf::Text text;
+int score1 = 0;
+int score2 = 0;
 
 CircleShape ball;
 RectangleShape paddles[2];
@@ -30,10 +36,25 @@ void reset(Vector2f location)
 	ball.setPosition(location);
 	//if server true 100, if server false -100
 	ballVelocity = { (server ? 100.0f : -100.0f), 60.0f };
+
+	// Update Score Text
+	text.setString(std::to_string(score1) + " : " + std::to_string(score2));
+	// Keep Score Text Centered
+	text.setPosition((gameWidth * .5f) - (text.getLocalBounds().width * .5f), 0);
 }
 
 void Load() 
 {
+
+	
+
+	// Load font-face from res dir
+	font.loadFromFile("res/DJB_Get_Digital.ttf");
+	// Set text element to use font
+	text.setFont(font);
+	// set the character size to 24 pixels
+	text.setCharacterSize(24);
+
 	// Set size and origin of paddles
 	for (auto &p : paddles) {
 		p.setSize(paddleSize - Vector2f(3, 3));
