@@ -16,7 +16,7 @@ const int gameWidth = 800;
 const int gameHeight = 600;
 const float paddleSpeed = 400.f;
 
-int aiMode = 2;
+int aiMode = 0;
 
 //scoreboard varibales
 sf::Font font;
@@ -30,7 +30,7 @@ RectangleShape paddles[2];
 Vector2f ballVelocity;
 bool server = true;
 
-void reset(Vector2f location, sf::RenderWindow &w)
+void reset(Vector2f location)
 {
 	// reset Ball Position
 	ball.setPosition(location);
@@ -40,22 +40,22 @@ void reset(Vector2f location, sf::RenderWindow &w)
 	// Update Score Text
 	text.setString(std::to_string(score1) + " : " + std::to_string(score2));
 	// Keep Score Text Centered
-	text.setPosition((gameWidth * .5f) - (text.getLocalBounds().width * .5f), gameHeight - 30);
+	text.setPosition((gameWidth * .5f) - (text.getLocalBounds().width * .5f), 0);
 
 	text.setColor(sf::Color::White);
 	text.setFillColor(sf::Color::White);
 
-	w.draw(text);
+	
 }
 
-void Load(sf::RenderWindow &w) 
+void Load() 
 {
 	// Load font-face from res dir
-	font.loadFromFile("res/RobotoMono-Regular.ttf");
+	font.loadFromFile("res/DJB_Get_Digital.ttf");
 	// Set text element to use font
 	text.setFont(font);
 	// set the character size to 24 pixels
-	text.setCharacterSize(24);
+	text.setCharacterSize(34);
 
 	// Set size and origin of paddles
 	for (auto &p : paddles) {
@@ -74,7 +74,7 @@ void Load(sf::RenderWindow &w)
 	paddles[0].setPosition(10 + paddleSize.x / 2, gameHeight / 2);
 	paddles[1].setPosition(770 + paddleSize.x / 2, gameHeight / 2);
 	
-	reset({400, 300}, w);
+	reset({400, 300});
 }
 
 void Player1(float dt)
@@ -208,12 +208,12 @@ void Update(RenderWindow &window)
 	else if (bx > gameWidth) 
 	{
 		// right wall
-		reset({(paddles[0].getPosition().x - offset.x), (paddles[0].getPosition().y)}, window);
+		reset({(paddles[0].getPosition().x - offset.x), (paddles[0].getPosition().y)});
 	}
 	else if (bx < 0)
 	{
 		// left wall
-		reset({ (paddles[1].getPosition().x + offset.x), (paddles[1].getPosition().y)}, window);
+		reset({ (paddles[1].getPosition().x + offset.x), (paddles[1].getPosition().y)});
 	}
 	else if (
 		//ball is inline or behind paddle
@@ -256,6 +256,7 @@ void Render(RenderWindow &window)
 	window.draw(paddles[0]);
 	window.draw(paddles[1]);
 	window.draw(ball);
+	window.draw(text);
 }
 
 
@@ -263,7 +264,7 @@ void Render(RenderWindow &window)
 int main() 
 {
 	RenderWindow window(VideoMode(gameWidth, gameHeight), "PONG");
-	Load(window);
+	Load();
 	while (window.isOpen()) 
 	{
 		window.clear();
