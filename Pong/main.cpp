@@ -89,10 +89,31 @@ void Update(RenderWindow &window)
 	}
 	paddles[1].move(0, direction[1] * paddleSpeed * dt);
 
+	//validate paddle moves
+	for (auto &p : paddles)
+	{
+		if (p.getPosition().y + (paddleSize.y * 0.5f) > gameHeight)
+		{
+			p.setPosition(p.getPosition().x, gameHeight - paddleSize.y * 0.5f);
+			//p.setFillColor(sf::Color::Green);
+		}
+		else if (p.getPosition().y - (paddleSize.y * 0.5f) < 0)
+		{
+			p.setPosition(p.getPosition().x, 0 + paddleSize.y * 0.5f);
+			//p.setFillColor(sf::Color::Red);
+
+		}
+		else
+		{
+			//p.setFillColor(sf::Color::White);
+		}
+	}
+
 	// check ball collision
 	const float bx = ball.getPosition().x;
 	const float by = ball.getPosition().y;
-	if (by > gameHeight) {
+	if (by > gameHeight) 
+	{
 	  // bottom wall
 		ballVelocity.x *= 1.1f;
 		ballVelocity.y *= -1.1f;
