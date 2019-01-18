@@ -117,7 +117,7 @@ void Update(RenderWindow &window)
 	}
 	else if (
 		//ball is inline or behind paddle
-		bx < paddleSize.x &&
+		bx < paddles[0].getPosition().x + (paddleSize.x * 0.5) &&
 		//AND ball is below top edge of paddle
 		by > paddles[0].getPosition().y - (paddleSize.y * 0.5) &&
 		//AND ball is above bottom edge of paddle
@@ -125,11 +125,13 @@ void Update(RenderWindow &window)
 		) 
 	{
 		// bounce off left paddle
-		reset();
+		ballVelocity.x *= -1.1f;
+		ballVelocity.y *= 1.1f;
+		ball.move(10, 0);
 	}
 	else if (
 		//ball is inline or behind paddle
-		bx > paddleSize.x &&
+		bx > paddles[1].getPosition().x - (paddleSize.x) &&
 		//AND ball is below top edge of paddle
 		by > paddles[1].getPosition().y - (paddleSize.y * 0.5) &&
 		//AND ball is above bottom edge of paddle
@@ -137,7 +139,9 @@ void Update(RenderWindow &window)
 		) 
 	{
 		//bounce off riught paddle
-		//reset();
+		ballVelocity.x *= -1.1f;
+		ballVelocity.y *= 1.1f;
+		ball.move(-10, 0);
 
 	}
 
