@@ -131,7 +131,7 @@ void Update(RenderWindow &window)
 	}
 	else if (
 		//ball is inline or behind paddle
-		bx > paddles[1].getPosition().x - (paddleSize.x) &&
+		bx > paddles[1].getPosition().x - (paddleSize.x * 0.5) &&
 		//AND ball is below top edge of paddle
 		by > paddles[1].getPosition().y - (paddleSize.y * 0.5) &&
 		//AND ball is above bottom edge of paddle
