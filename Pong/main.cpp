@@ -22,12 +22,12 @@ CircleShape ball;
 RectangleShape paddles[2];
 
 Vector2f ballVelocity;
-bool server = false;
+bool server = true;
 
-void reset()
+void reset(Vector2f location)
 {
 	// reset Ball Position
-	ball.setPosition(400, 300);
+	ball.setPosition(location);
 	//if server true 100, if server false -100
 	ballVelocity = { (server ? 100.0f : -100.0f), 60.0f };
 }
@@ -51,7 +51,7 @@ void Load()
 	paddles[0].setPosition(10 + paddleSize.x / 2, gameHeight / 2);
 	paddles[1].setPosition(770 + paddleSize.x / 2, gameHeight / 2);
 	
-	reset();
+	reset({400, 300});
 }
 
 void Player1(float dt)
@@ -167,6 +167,7 @@ void Update(RenderWindow &window)
 	// check ball collision
 	const float bx = ball.getPosition().x;
 	const float by = ball.getPosition().y;
+	Vector2f offset = { 10, 10 };
 	if (by > gameHeight) 
 	{
 	  // bottom wall
@@ -184,12 +185,12 @@ void Update(RenderWindow &window)
 	else if (bx > gameWidth) 
 	{
 		// right wall
-		reset();
+		reset({(paddles[0].getPosition().x - offset.x), (paddles[0].getPosition().y)});
 	}
 	else if (bx < 0)
 	{
 		// left wall
-		reset();
+		reset({ (paddles[1].getPosition().x + offset.x), (paddles[1].getPosition().y) });
 	}
 	else if (
 		//ball is inline or behind paddle
