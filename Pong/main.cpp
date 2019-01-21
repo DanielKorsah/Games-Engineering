@@ -16,13 +16,15 @@ const int gameWidth = 800;
 const int gameHeight = 600;
 const float paddleSpeed = 400.f;
 
-int aiMode = 0;
+int aiMode = 1;
 
 //scoreboard varibales
 sf::Font font;
-sf::Text text;
-int score1 = 0;
-int score2 = 0;
+sf::Text t_colon;
+sf::Text t_score1;
+sf::Text t_score2;
+int score1 = 9;
+int score2 = 99;
 
 CircleShape ball;
 RectangleShape paddles[2];
@@ -38,14 +40,12 @@ void reset(Vector2f location)
 	ballVelocity = { (server ? 100.0f : -100.0f), 60.0f };
 
 	// Update Score Text
-	text.setString(std::to_string(score1) + " : " + std::to_string(score2));
-	// Keep Score Text Centered
-	text.setPosition((gameWidth * .5f) - (text.getLocalBounds().width * .5f), 0);
+	t_score1.setString(std::to_string(score1));
+	t_score2.setString(std::to_string(score2));
 
-	text.setColor(sf::Color::White);
-	text.setFillColor(sf::Color::White);
+	t_score1.setPosition((gameWidth * .5f) - t_score1.getLocalBounds().width - 10, 0);
+	t_score2.setPosition((gameWidth * .5f) + t_score1.getLocalBounds().width - 10, 0);
 
-	
 }
 
 void Load() 
@@ -53,9 +53,23 @@ void Load()
 	// Load font-face from res dir
 	font.loadFromFile("res/DJB_Get_Digital.ttf");
 	// Set text element to use font
-	text.setFont(font);
-	// set the character size to 24 pixels
-	text.setCharacterSize(34);
+	t_colon.setFont(font);
+	t_score1.setFont(font);
+	t_score2.setFont(font);
+	// set the character size to 34 pixels
+	t_colon.setCharacterSize(34);
+	t_score1.setCharacterSize(34);
+	t_score2.setCharacterSize(34);
+
+	t_colon.setString(" : ");
+
+	//centre colon
+	t_colon.setPosition((gameWidth * .5f) - (t_colon.getLocalBounds().width * .5f), 0);
+
+	//set score colours
+	t_score1.setColor(sf::Color::Red);
+	t_score2.setColor(sf::Color::Cyan);
+
 
 	// Set size and origin of paddles
 	for (auto &p : paddles) {
@@ -66,6 +80,7 @@ void Load()
 	//set player colours
 	paddles[0].setFillColor(sf::Color::Red);
 	paddles[1].setFillColor(sf::Color::Blue);
+
 
 	// Set size and origin of ball
 	ball.setRadius(ballRadius - 3);
@@ -208,12 +223,15 @@ void Update(RenderWindow &window)
 	else if (bx > gameWidth) 
 	{
 		// right wall
-		reset({(paddles[0].getPosition().x - offset.x), (paddles[0].getPosition().y)});
+		score1++;
+		reset({ (paddles[0].getPosition().x - offset.x), (paddles[0].getPosition().y) });
 	}
 	else if (bx < 0)
 	{
 		// left wall
+		score2++;
 		reset({ (paddles[1].getPosition().x + offset.x), (paddles[1].getPosition().y)});
+		
 	}
 	else if (
 		//ball is inline or behind paddle
@@ -242,7 +260,6 @@ void Update(RenderWindow &window)
 		ballVelocity.x *= -1.1f;
 		ballVelocity.y *= 1.1f;
 		ball.move(-10, 0);
-
 	}
 
 
@@ -256,7 +273,9 @@ void Render(RenderWindow &window)
 	window.draw(paddles[0]);
 	window.draw(paddles[1]);
 	window.draw(ball);
-	window.draw(text);
+	window.draw(t_colon);
+	window.draw(t_score1);
+	window.draw(t_score2);
 }
 
 
