@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include "main.h"
+#include <ctime>
 
 using namespace sf;
 using namespace std;
@@ -37,7 +38,7 @@ void reset(Vector2f location)
 	// reset Ball Position
 	ball.setPosition(location);
 	//if server true 100, if server false -100
-	ballVelocity = { (server ? 100.0f : -100.0f), 60.0f };
+	ballVelocity = { (server ? 100.0f : -100.0f), (rand() % 180)-90.0f };
 
 	// Update Score Text
 	t_score1.setString(std::to_string(score1));
@@ -50,6 +51,8 @@ void reset(Vector2f location)
 
 void Load() 
 {
+
+	srand(time(NULL));
 	// Load font-face from res dir
 	font.loadFromFile("res/DJB_Get_Digital.ttf");
 	// Set text element to use font
