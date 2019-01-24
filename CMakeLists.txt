@@ -27,3 +27,30 @@ file(GLOB_RECURSE SOURCES Pong/*.cpp Pong/*.h)
 add_executable(Pong ${SOURCES})
 target_include_directories(Pong PRIVATE ${SFML_INCS})
 target_link_libraries(Pong sfml-graphics)
+
+## Space invaders
+file(GLOB_RECURSE SOURCES Invaders/*.cpp Invaders/*.h)
+add_executable(Invaders ${SOURCES} )
+target_include_directories(Invaders SYSTEM PRIVATE ${SFML_INCS})
+target_link_libraries(Invaders sfml-graphics)
+
+SET(OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/")
+
+set_target_properties(Pong 
+    PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY
+    ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$(Configuration)
+)
+
+set_target_properties(Invaders 
+    PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY
+    ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$(Configuration)
+)
+
+add_custom_target(copy_resources ALL COMMAND ${CMAKE_COMMAND} 
+  -E copy_directory
+    "${PROJECT_SOURCE_DIR}/res"
+    ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$<CONFIGURATION>/res
+)
+
+add_dependencies(Pong copy_resources)
+add_dependencies(Invaders copy_resources)

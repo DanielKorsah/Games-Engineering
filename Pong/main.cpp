@@ -17,7 +17,7 @@ const int gameWidth = 800;
 const int gameHeight = 600;
 const float paddleSpeed = 400.f;
 
-int aiMode = 1;
+int aiMode = 2;
 
 //scoreboard varibales
 sf::Font font;
