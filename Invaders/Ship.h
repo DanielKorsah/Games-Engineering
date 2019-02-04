@@ -1,6 +1,8 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 
+#include "game.h";
+
 class Ship : public sf::Sprite {
 protected:
 	sf::IntRect _sprite;

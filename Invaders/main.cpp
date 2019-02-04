@@ -1,16 +1,16 @@
 #include <SFML/Graphics.hpp>
 #include <ctime>
 #include <iostream>
+#include "Ship.h";
 
 using namespace sf;
 using namespace std;
 
-const int gameWidth = 800;
-const int gameHeight = 600;
 
-//Main.cpp
+
 sf::Texture spritesheet;
 sf::Sprite invader;
+vector<Ship *> ships;
 
 void Load() {
 	if (!spritesheet.loadFromFile("res/img/invaders_sheet.png")) {
