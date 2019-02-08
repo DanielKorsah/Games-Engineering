@@ -27,3 +27,10 @@ public:
 
 	void Update(const float &dt) override;
 };
+
+class Player : public Ship
+{
+public:
+	Player();
+	void Update(const float&dt) override;
+};

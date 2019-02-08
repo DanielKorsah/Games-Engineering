@@ -12,6 +12,7 @@ using namespace std;
 sf::Texture spritesheet;
 sf::Sprite invader;
 std::vector<Ship *> ships = std::vector<Ship*>{};
+Player* player;
 
 void Load() {
 	if (!spritesheet.loadFromFile("res/img/invaders_sheet.png")) {
@@ -33,6 +34,9 @@ void Load() {
 			ships.push_back(inv);
 		}
 	}
+
+	player = new Player();
+	ships.push_back(player);
 }
 
 void Update(RenderWindow &window)

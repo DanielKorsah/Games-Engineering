@@ -1,5 +1,6 @@
 #include "ship.h"
 #include "game.h"
+#include <typeinfo>
 using namespace sf;
 using namespace std;
 
@@ -21,7 +22,7 @@ Ship::~Ship() = default;
 Invader::Invader() : Ship() {}
 
 bool Invader::direction = true;
-float Invader::speed = 100;
+float Invader::speed = 50;
 
 Invader::Invader(sf::IntRect ir, sf::Vector2f pos) : Ship(ir) {
 	setOrigin(16, 16);
@@ -37,9 +38,31 @@ void Invader::Update(const float &dt) {
 	{
 		speed *= 1.1f;
 		direction = !direction;
-		for (int i = 0; i < ships.size(); i++)
+		//skip the last inex as that's where the player is
+		for (int i = 0; i < ships.size() -1; i++)
 		{
-			ships[i]->move(0, 24);
+				ships[i]->move(0, 24);
 		}
 	}
+}
+
+Player::Player() : Ship(IntRect(160, 32, 32, 32))
+{
+	setPosition({ gameHeight * 0.5f, gameHeight - 32.0f });
+
+}
+
+void Player::Update(const float &dt)
+{
+	Ship::Update(dt);
+
+
+	float playerSpeed = 120.0f;
+	//move left
+	if (Keyboard::isKeyPressed(Keyboard::A))
+		move(dt * -playerSpeed, 0);
+	//move right
+	if (Keyboard::isKeyPressed(Keyboard::D))
+		move(dt * playerSpeed, 0);
+
 }
