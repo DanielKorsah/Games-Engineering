@@ -20,8 +20,19 @@ void Load() {
 	invader.setTexture(spritesheet);
 	invader.setTextureRect(sf::IntRect(0, 0, 32, 32));
 
-	Invader* inv = new Invader(sf::IntRect(0, 0, 32, 32), {100,100});
-	ships.push_back(inv);
+	//rows
+	for (int r = 0; r < invaders_rows; ++r)
+	{
+		auto rect = IntRect(0, 0, 32, 32);
+
+		//columns
+		for (int c = 0; c < invaders_columns; ++c)
+		{
+			Vector2f position = {(50.0f * c+1), (50.0f * r+1)};
+			auto inv = new Invader(rect, position);
+			ships.push_back(inv);
+		}
+	}
 }
 
 void Update(RenderWindow &window)
