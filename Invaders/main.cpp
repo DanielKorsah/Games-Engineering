@@ -1,7 +1,8 @@
 #include <SFML/Graphics.hpp>
 #include <ctime>
 #include <iostream>
-#include "Ship.h";
+#include "Ship.h"
+#include "game.h"
 
 using namespace sf;
 using namespace std;
@@ -10,7 +11,7 @@ using namespace std;
 
 sf::Texture spritesheet;
 sf::Sprite invader;
-vector<Ship *> ships;
+std::vector<Ship *> ships = std::vector<Ship*>{};
 
 void Load() {
 	if (!spritesheet.loadFromFile("res/img/invaders_sheet.png")) {
@@ -27,6 +28,17 @@ void Update(RenderWindow &window)
 {
 	// Reset clock, recalculate deltatime
 	static Clock clock;
+
+	Event event;
+	while (window.pollEvent(event)) 
+	{
+		if (event.type == Event::Closed) 
+		{
+			window.close();
+			return;
+		}
+	}
+
 	float dt = clock.restart().asSeconds();
 	
 	for(auto &s : ships)

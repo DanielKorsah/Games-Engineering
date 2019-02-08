@@ -1,7 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 
-#include "game.h";
 
 class Ship : public sf::Sprite {
 protected:
@@ -19,7 +18,12 @@ public:
 
 class Invader : public Ship {
 public:
+	//constructors
 	Invader(sf::IntRect ir, sf::Vector2f pos);
 	Invader();
+
+	static bool direction;
+	static float speed;
+
 	void Update(const float &dt) override;
 };
