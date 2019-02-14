@@ -1,6 +1,7 @@
 #include "ship.h"
 #include "game.h"
 #include <typeinfo>
+#include "bullet.h"
 using namespace sf;
 using namespace std;
 
@@ -49,6 +50,7 @@ void Invader::Update(const float &dt) {
 Player::Player() : Ship(IntRect(160, 32, 32, 32))
 {
 	setPosition({ gameHeight * 0.5f, gameHeight - 32.0f });
+	setOrigin(16, 16);
 
 }
 
@@ -56,6 +58,9 @@ void Player::Update(const float &dt)
 {
 	Ship::Update(dt);
 
+	if (Keyboard::isKeyPressed(Keyboard::Space)) {
+		bullets.push_back(new Bullet(getPosition(), false));
+	}
 
 	float playerSpeed = 120.0f;
 	//move left

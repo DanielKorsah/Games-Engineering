@@ -12,6 +12,7 @@ using namespace std;
 sf::Texture spritesheet;
 sf::Sprite invader;
 std::vector<Ship *> ships = std::vector<Ship*>{};
+std::vector<Bullet*> bullets = std::vector<Bullet*>{};
 Player* player;
 
 void Load() {
@@ -61,12 +62,21 @@ void Update(RenderWindow &window)
 		s->Update(dt);
 	}
 
+	for (auto &b : bullets)
+	{
+		b->Update(dt);
+	}
+
 }
 
 void Render(RenderWindow &window) {
 	//window.draw(invader);
 	for (const auto s : ships) {
 		window.draw(*s);
+	}
+
+	for (const auto b : bullets) {
+		window.draw(*b);
 	}
 }
 
