@@ -34,6 +34,12 @@ add_executable(Invaders ${SOURCES} )
 target_include_directories(Invaders SYSTEM PRIVATE ${SFML_INCS})
 target_link_libraries(Invaders sfml-graphics)
 
+## Tile Engine
+file(GLOB_RECURSE SOURCES TileEngine/*.cpp TileEngine/*.h)
+add_executable(TileEngine ${SOURCES} )
+target_include_directories(TileEngine SYSTEM PRIVATE ${SFML_INCS})
+target_link_libraries(TileEngine sfml-graphics)
+
 SET(OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/")
 
 set_target_properties(Pong 
@@ -46,6 +52,11 @@ set_target_properties(Invaders
     ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$(Configuration)
 )
 
+set_target_properties(TileEngine
+    PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY
+    ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$(Configuration)
+)
+
 add_custom_target(copy_resources ALL COMMAND ${CMAKE_COMMAND} 
   -E copy_directory
     "${PROJECT_SOURCE_DIR}/res"
@@ -54,3 +65,4 @@ add_custom_target(copy_resources ALL COMMAND ${CMAKE_COMMAND}
 
 add_dependencies(Pong copy_resources)
 add_dependencies(Invaders copy_resources)
+add_dependencies(TileEngine copy_resources)
