@@ -10,4 +10,6 @@ protected:
 	Bullet();
 	//false=player bullet, true=Enemy bullet
 	bool _mode;
+	unsigned char bulletPointer;
+	static Bullet bullets[256];
 };

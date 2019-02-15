@@ -58,8 +58,15 @@ void Player::Update(const float &dt)
 {
 	Ship::Update(dt);
 
+	static vector<Bullet*> bullets;
+
 	if (Keyboard::isKeyPressed(Keyboard::Space)) {
 		bullets.push_back(new Bullet(getPosition(), false));
+	}
+
+	for (const auto &b : bullets)
+	{
+		b->Update(dt);
 	}
 
 	float playerSpeed = 120.0f;
