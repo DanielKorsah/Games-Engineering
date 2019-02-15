@@ -25,12 +25,14 @@ Invader::Invader() : Ship() {}
 bool Invader::direction = true;
 float Invader::speed = 50;
 
-Invader::Invader(sf::IntRect ir, sf::Vector2f pos) : Ship(ir) {
+Invader::Invader(sf::IntRect ir, sf::Vector2f pos) : Ship(ir) 
+{
 	setOrigin(15.5, 15.5);
 	setPosition(pos);
 }
 
-void Invader::Update(const float &dt) {
+void Invader::Update(const float &dt) 
+{
 	Ship::Update(dt);
 
 	move(dt * (direction ? 1.0f : -1.0f) * speed, 0);
@@ -45,6 +47,15 @@ void Invader::Update(const float &dt) {
 				ships[i]->move(0, 24);
 		}
 	}
+
+	//randomly fire, no quicker than 4 seconds apart, no faster than 30 seconds apart
+	static float firetime = 0.0f;
+	firetime -= dt;
+	if (firetime <= 0 && rand() % 100 == 0) 
+	{
+		Bullet::Fire(getPosition(), true);
+		firetime = 4.0f + (rand() % 30);
+	}
 }
 
 Player::Player() : Ship(IntRect(160, 32, 32, 32))
@@ -58,11 +69,6 @@ void Player::Update(const float &dt)
 {
 	Ship::Update(dt);
 
-	if (Keyboard::isKeyPressed(Keyboard::Space)) {
-		Bullet::Fire(getPosition(), false);
-	}
-
-
 	float playerSpeed = 120.0f;
 	//move left
 	if (Keyboard::isKeyPressed(Keyboard::A))
@@ -71,4 +77,12 @@ void Player::Update(const float &dt)
 	if (Keyboard::isKeyPressed(Keyboard::D))
 		move(dt * playerSpeed, 0);
 
+	//fire timer
+	static float firetime = 0.0f;
+	firetime -= dt;
+	if (firetime <= 0 && Keyboard::isKeyPressed(Keyboard::Space)) 
+	{
+		Bullet::Fire(getPosition(), false);
+		firetime = 0.7f;
+	}
 }

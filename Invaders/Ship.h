@@ -5,6 +5,7 @@
 class Ship : public sf::Sprite {
 protected:
 	sf::IntRect _sprite;
+	bool _exploded = false;
 	//Default constructor is hidden
 	Ship();
 public:
@@ -14,6 +15,9 @@ public:
 	virtual ~Ship() = 0;
 	//Update, virtual so can be overrided, but not pure virtual
 	virtual void Update(const float &dt);
+
+	bool isExploded() const { return _exploded; }
+	virtual void Explode();
 };
 
 class Invader : public Ship {
