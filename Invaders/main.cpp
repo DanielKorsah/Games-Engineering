@@ -82,7 +82,7 @@ void Render(RenderWindow &window) {
 
 int main()
 {
-	RenderWindow window(VideoMode(gameWidth, gameHeight), "PONG");
+	RenderWindow window(VideoMode(gameWidth, gameHeight), "Space Ivaders");
 	Load();
 	while (window.isOpen())
 	{
