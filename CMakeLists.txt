@@ -37,7 +37,7 @@ target_link_libraries(Invaders sfml-graphics)
 ## Tile Engine
 file(GLOB_RECURSE SOURCES TileEngine/*.cpp TileEngine/*.h)
 add_executable(TileEngine ${SOURCES} )
-target_include_directories(TileEngine SYSTEM PRIVATE ${SFML_INCS})
+target_include_directories(TileEngine PRIVATE ${SFML_INCS})
 target_link_libraries(TileEngine sfml-graphics)
 
 SET(OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/")
