@@ -62,6 +62,8 @@ void Update(RenderWindow &window)
 		s->Update(dt);
 	}
 
+	Bullet::Update(dt);
+
 
 }
 
@@ -70,6 +72,8 @@ void Render(RenderWindow &window) {
 	for (const auto &s : ships) {
 		window.draw(*s);
 	}
+
+	Bullet::Render(window);
 
 	
 }

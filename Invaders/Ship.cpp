@@ -26,7 +26,7 @@ bool Invader::direction = true;
 float Invader::speed = 50;
 
 Invader::Invader(sf::IntRect ir, sf::Vector2f pos) : Ship(ir) {
-	setOrigin(16, 16);
+	setOrigin(15.5, 15.5);
 	setPosition(pos);
 }
 
@@ -58,16 +58,10 @@ void Player::Update(const float &dt)
 {
 	Ship::Update(dt);
 
-	static vector<Bullet*> bullets;
-
 	if (Keyboard::isKeyPressed(Keyboard::Space)) {
-		bullets.push_back(new Bullet(getPosition(), false));
+		Bullet::Fire(getPosition(), false);
 	}
 
-	for (const auto &b : bullets)
-	{
-		b->Update(dt);
-	}
 
 	float playerSpeed = 120.0f;
 	//move left
